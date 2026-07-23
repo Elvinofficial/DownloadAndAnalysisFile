@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Файлы и расчёты
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <p class="page-header__eyebrow">
+            Анализ данных
+        </p>
+
+        <h1 class="page-header__title">
+            Скачанные файлы
+        </h1>
+
+        <p class="page-header__description">
+            Выберите нужные файлы и выполните расчёт
+            частоты появления цифр.
+        </p>
+    </div>
+
+    <button
+        id="calculate-button"
+        class="button button--primary"
+        type="button"
+        disabled
+    >
+        Произвести расчёты
+    </button>
+</section>
+
+<section class="card">
+    <div class="files-toolbar">
+        <div class="files-toolbar__group">
+            <label class="field">
+                <span class="field__label">
+                    Сортировать по
+                </span>
+
+                <select
+                    id="sort-by"
+                    class="field__control"
+                >
+                    <option value="downloaded_at">
+                        Времени скачивания
+                    </option>
+
+                    <option value="file_name">
+                        Названию файла
+                    </option>
+                </select>
+            </label>
+
+            <label class="field">
+                <span class="field__label">
+                    Порядок
+                </span>
+
+                <select
+                    id="sort-order"
+                    class="field__control"
+                >
+                    <option value="desc">
+                        По убыванию
+                    </option>
+
+                    <option value="asc">
+                        По возрастанию
+                    </option>
+                </select>
+            </label>
+
+            <label class="field">
+                <span class="field__label">
+                    На странице
+                </span>
+
+                <select
+                    id="page-size"
+                    class="field__control"
+                >
+                    <option value="5">5</option>
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="files-toolbar__selection">
+            <button
+                id="select-page-button"
+                class="button button--secondary"
+                type="button"
+            >
+                Выбрать страницу
+            </button>
+
+            <button
+                id="select-all-button"
+                class="button button--secondary"
+                type="button"
+            >
+                Выбрать все файлы
+            </button>
+
+            <button
+                id="clear-selection-button"
+                class="button button--ghost"
+                type="button"
+                disabled
+            >
+                Очистить выбор
+            </button>
+        </div>
+    </div>
+
+    <div class="selection-summary">
+        <span>
+            Выбрано файлов:
+            <strong id="selected-count">0</strong>
+        </span>
+
+        <span>
+            Всего файлов:
+            <strong id="total-count">0</strong>
+        </span>
+    </div>
+
+    <div
+        id="files-loading"
+        class="state-message"
+    >
+        Загружаем список файлов...
+    </div>
+
+    <div
+        id="files-empty"
+        class="state-message hidden"
+    >
+        Скачанных файлов пока нет.
+    </div>
+
+    <div
+        id="files-error"
+        class="alert alert--error hidden"
+    ></div>
+
+    <div
+        id="files-table-wrapper"
+        class="table-wrapper hidden"
+    >
+        <table class="files-table">
+            <thead>
+                <tr>
+                    <th class="files-table__checkbox">
+                        <input
+                            id="select-current-page-checkbox"
+                            type="checkbox"
+                            aria-label="Выбрать все файлы на странице"
+                        >
+                    </th>
+
+                    <th>Название файла</th>
+                    <th>Время скачивания, НСК</th>
+                </tr>
+            </thead>
+
+            <tbody id="files-table-body"></tbody>
+        </table>
+    </div>
+
+    <div
+        id="pagination"
+        class="pagination hidden"
+    >
+        <button
+            id="previous-page-button"
+            class="button button--secondary"
+            type="button"
+        >
+            Назад
+        </button>
+
+        <span id="pagination-info">
+            Страница 1 из 1
+        </span>
+
+        <button
+            id="next-page-button"
+            class="button button--secondary"
+            type="button"
+        >
+            Вперёд
+        </button>
+    </div>
+</section>
+
+<section
+    id="calculation-section"
+    class="calculation-section hidden"
+>
+    <div class="section-heading">
+        <div>
+            <p class="page-header__eyebrow">
+                Результаты
+            </p>
+
+            <h2 class="section-heading__title">
+                Статистика цифр
+            </h2>
+        </div>
+    </div>
+
+    <div
+        id="calculation-loading"
+        class="card state-message hidden"
+    >
+        Выполняем расчёты...
+    </div>
+
+    <div
+        id="calculation-error"
+        class="alert alert--error hidden"
+    ></div>
+
+    <section
+        id="total-statistics-card"
+        class="card hidden"
+    >
+        <div class="download-card__header">
+            <div>
+                <p class="card__label">
+                    Общая статистика
+                </p>
+
+                <h3 class="card__title">
+                    Все выбранные файлы
+                </h3>
+            </div>
+
+            <span class="status-badge status-badge--completed">
+                Всего цифр:
+                <span id="total-digits-count">0</span>
+            </span>
+        </div>
+
+        <div
+            id="total-digits-grid"
+            class="digits-grid"
+        ></div>
+    </section>
+
+    <div
+        id="file-statistics-container"
+        class="file-statistics"
+    ></div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='/js/downloaded_files.js') }}"></script>
+{% endblock %}

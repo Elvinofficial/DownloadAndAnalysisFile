@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}File Downloader{% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='/css/styles.css') }}"
+    >
+</head>
+
+<body>
+    <header class="header">
+        <div class="container header__content">
+            <a class="header__logo" href="/">
+                File Downloader
+            </a>
+
+            <nav class="navigation">
+                <a
+                    class="navigation__link"
+                    href="/"
+                >
+                    Скачивание
+                </a>
+
+                <a
+                    class="navigation__link"
+                    href="/downloaded-files"
+                >
+                    Файлы и расчёты
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

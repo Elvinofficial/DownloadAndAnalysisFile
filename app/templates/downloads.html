@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Скачивание данных
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div>
+        <p class="page-header__eyebrow">
+            Загрузка документов
+        </p>
+
+        <h1 class="page-header__title">
+            Скачивание данных
+        </h1>
+
+        <p class="page-header__description">
+            Запустите получение очередной порции файлов
+            из внешнего сервиса.
+        </p>
+    </div>
+
+    <button
+        id="start-download-button"
+        class="button button--primary"
+        type="button"
+    >
+        Скачать данные
+    </button>
+</section>
+
+<section
+    id="download-card"
+    class="card download-card"
+>
+    <div class="download-card__header">
+        <div>
+            <p class="card__label">
+                Состояние процесса
+            </p>
+
+            <h2
+                id="download-status-title"
+                class="card__title"
+            >
+                Ожидание запуска
+            </h2>
+        </div>
+
+        <span
+            id="download-status-badge"
+            class="status-badge status-badge--idle"
+        >
+            Не запущено
+        </span>
+    </div>
+
+    <div class="statistics-grid">
+        <article class="statistic">
+            <span class="statistic__label">
+                Время запуска, НСК
+            </span>
+
+            <strong
+                id="started-at"
+                class="statistic__value statistic__value--small"
+            >
+                —
+            </strong>
+        </article>
+
+        <article class="statistic">
+            <span class="statistic__label">
+                Получено названий
+            </span>
+
+            <strong
+                id="total-files"
+                class="statistic__value"
+            >
+                0
+            </strong>
+        </article>
+
+        <article class="statistic">
+            <span class="statistic__label">
+                Скачано файлов
+            </span>
+
+            <strong
+                id="downloaded-files"
+                class="statistic__value"
+            >
+                0
+            </strong>
+        </article>
+
+        <article class="statistic">
+            <span class="statistic__label">
+                Прогресс
+            </span>
+
+            <strong
+                id="progress-percent"
+                class="statistic__value"
+            >
+                0%
+            </strong>
+        </article>
+    </div>
+
+    <div class="progress">
+        <div
+            id="progress-bar"
+            class="progress__bar"
+            style="width: 0%"
+        ></div>
+    </div>
+
+    <p
+        id="download-message"
+        class="download-card__message"
+    >
+        Нажмите «Скачать данные», чтобы запустить процесс.
+    </p>
+
+    <div
+        id="error-container"
+        class="alert alert--error hidden"
+    >
+        <strong>Ошибка:</strong>
+
+        <span id="error-message"></span>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='/js/downloads.js') }}"></script>
+{% endblock %}

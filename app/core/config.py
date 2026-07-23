@@ -4,6 +4,7 @@ from pathlib import Path
 from pydantic import Field, PostgresDsn, RedisDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+
 BASE_DIR = Path(__file__).resolve().parents[2]
 
 
@@ -27,11 +28,19 @@ class Settings(BaseSettings):
 
     redis_url: RedisDsn = Field(alias="REDIS_URL")
 
-    source_api_base_url: str = Field(alias="SOURCE_API_BASE_URL")
-    source_api_candidate_id: str = Field(alias="SOURCE_API_CANDIDATE_ID")
+    source_api_url: str = Field(alias="SOURCE_API_URL")
+    source_api_candidate_id: str = Field(
+        alias="SOURCE_API_CANDIDATE_ID"
+    )
+    source_api_timeout_seconds: float = Field(
+        alias="SOURCE_API_TIMEOUT_SECONDS"
+    )
 
-    download_storage_path: Path = Field(alias="DOWNLOAD_STORAGE_PATH")
-    novosibirsk_timezone: str = Field(alias="NOVOSIBIRSK_TIMEZONE")
+    storage_root: Path = Field(alias="STORAGE_ROOT")
+
+    novosibirsk_timezone: str = Field(
+        alias="NOVOSIBIRSK_TIMEZONE"
+    )
 
     @property
     def database_url(self) -> PostgresDsn:
@@ -45,13 +54,11 @@ class Settings(BaseSettings):
         )
 
     @property
-    def absolute_download_storage_path(self) -> Path:
-        path = self.download_storage_path
+    def absolute_storage_root(self) -> Path:
+        if self.storage_root.is_absolute():
+            return self.storage_root
 
-        if path.is_absolute():
-            return path
-
-        return BASE_DIR / path
+        return BASE_DIR / self.storage_root
 
 
 @lru_cache
