@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environment
+.venv/
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# Local storage
+storage/downloaded/*
+
+# Keep directory
+!storage/downloaded/.gitkeep
+
+# Database
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
